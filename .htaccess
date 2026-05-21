@@ -1,0 +1,26 @@
+Options -Indexes
+RewriteEngine On
+
+# Pasar Authorization header a PHP
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+# Rutas de API → backend/index.php
+RewriteRule ^api(/.*)?$ backend/index.php [QSA,L]
+
+# Vite compila con rutas /assets/... pero los archivos están en /dist/assets/
+RewriteRule ^assets/(.*)$ dist/assets/$1 [L]
+
+# Assets estáticos (js, css, fuentes, imágenes): si existen → servir directo,
+# si no existen → 404 real (nunca servir index.php para estos)
+RewriteCond %{REQUEST_URI} \.(js|css|woff2?|ttf|eot|svg|png|jpg|jpeg|ico|webp|json|map)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ - [R=404,L]
+
+# Dejar pasar archivos y directorios que existen directamente
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Todo lo demás → index.php (entry point del SPA)
+RewriteRule ^ index.php [QSA,L]
