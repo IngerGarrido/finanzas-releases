@@ -1,0 +1,4 @@
+# Permitir que el instalador se sirva directamente
+# (el .htaccess del backend redirige todo a index.php;
+#  este override asegura que install/index.php se sirva como archivo normal)
+RewriteEngine Off

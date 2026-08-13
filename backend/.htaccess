@@ -1,0 +1,9 @@
+Options -Indexes
+RewriteEngine On
+
+# Pasar Authorization header a PHP (necesario en Apache/MAMP)
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]

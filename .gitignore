@@ -1,0 +1,10 @@
+backend/.env
+backend/install.lock
+install.lock
+backend/cache/
+backend/logs/
+logs/
+*.log
+.DS_Store
+Thumbs.db
+frontend/node_modules/
